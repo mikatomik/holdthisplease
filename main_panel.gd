@@ -2,14 +2,20 @@ extends Control
 
 var click_pos : Vector2
 var clipboard : String = ""
+var party_mode_enabled : bool = false
 
 const CONFIG_FILEPATH = "user://config.cfg"
 
 onready var text_box = $main_screen/TextEdit
+onready var party_material = preload("res://party_mode_material.tres")
 
 func _ready():
 	$options.visible = false
 	load_config()
+	if party_mode_enabled:
+		text_box.set_material(party_material)
+	else:
+		text_box.set_material(null)
 	text_box.grab_focus()
 
 func _process(_delta):
@@ -34,7 +40,7 @@ func load_config():
 		text_box.highlight_current_line = config_file.get_value("options", "highlight_current_line", false)
 		text_box.highlight_all_occurrences = config_file.get_value("options", "highlight_selection_duplicates", false)
 		text_box.minimap_draw = config_file.get_value("options", "minimap_draw", false)
-		text_box.material = config_file.get_value("options", "super_secret_party_mode", false)
+		party_mode_enabled = config_file.get_value("options", "super_secret_party_mode", false)
 		OS.set_window_always_on_top(config_file.get_value("options", "always_on_top", true))
 		OS.window_size = config_file.get_value("options", "window_size", Vector2(300, 500))
 		clipboard = config_file.get_value("memory", "text", "")
@@ -57,6 +63,7 @@ func save_config():
 	config_file.set_value("options", "always_on_top", OS.is_window_always_on_top())
 	config_file.set_value("options", "window_size", OS.window_size)
 	config_file.set_value("options", "minimap_draw", text_box.minimap_draw)
+	config_file.set_value("options", "super_secret_party_mode", party_mode_enabled)
 	config_file.save(CONFIG_FILEPATH)
 	
 
