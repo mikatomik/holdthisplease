@@ -34,6 +34,7 @@ func load_config():
 		text_box.highlight_current_line = config_file.get_value("options", "highlight_current_line", false)
 		text_box.highlight_all_occurrences = config_file.get_value("options", "highlight_selection_duplicates", false)
 		text_box.minimap_draw = config_file.get_value("options", "minimap_draw", false)
+		text_box.material = config_file.get_value("options", "super_secret_party_mode", false)
 		OS.set_window_always_on_top(config_file.get_value("options", "always_on_top", true))
 		OS.window_size = config_file.get_value("options", "window_size", Vector2(300, 500))
 		clipboard = config_file.get_value("memory", "text", "")
